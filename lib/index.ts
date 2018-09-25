@@ -94,9 +94,9 @@ export const KafkaConsumerService: any = {
             consumerGroup.resume();
         };
 
-        /*consumerGroup.on('connect', () => {
+        consumerGroup.on('connect', () => {
             Logger.info('[KAFKA]', 'Kafka consumer group', consumerGroupOptions.name, 'connected');
-        });*/
+        });
         consumerGroup.on('message', (message: any) => {
             try {
                 const value: IKafkaMessage = JSON.parse(message.value);
