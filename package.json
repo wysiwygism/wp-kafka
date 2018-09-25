@@ -2,7 +2,8 @@
   "name": "wp-kafka",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +16,15 @@
   "bugs": {
     "url": "https://github.com/wysiwygism/wp-kafka/issues"
   },
-  "homepage": "https://github.com/wysiwygism/wp-kafka#readme"
+  "homepage": "https://github.com/wysiwygism/wp-kafka#readme",
+  "dependencies": {
+    "async": "^2.6.1",
+    "kafka-node": "^3.0.1",
+    "log4js": "^3.0.5"
+  },
+  "devDependencies": {
+    "@types/async": "^2.0.49",
+    "@types/kafka-node": "^2.0.7",
+    "@types/node": "^10.11.0"
+  }
 }
