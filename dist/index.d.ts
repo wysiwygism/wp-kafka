@@ -5,6 +5,10 @@ export interface IKafkaConsumerGroupOptions {
     topics: string[];
     processCallback: (message: any, cb: (err?: Error) => void) => void;
 }
+export interface IKafkaProducerOptions {
+    host: string;
+    port: string;
+}
 export interface IKafkaMessage {
     event: string;
     data: any;

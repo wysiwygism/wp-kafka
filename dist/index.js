@@ -12,9 +12,9 @@ const ConsumerGroup = kafka.ConsumerGroup;
 let client = null;
 let producer = null;
 exports.KafkaProducerService = {
-    init: (host, port) => {
-        Logger.info('[KAFKA]', 'Connecting Kafka producer', host, port);
-        client = new kafka.Client(host + ':' + port);
+    init: (options) => {
+        Logger.info('[KAFKA]', 'Connecting Kafka producer', options.host, options.port);
+        client = new kafka.Client(options.host + ':' + options.port);
         producer = new Producer(client);
         producer.on('ready', () => {
             Logger.info('[KAFKA]', 'Kafka producer connected');

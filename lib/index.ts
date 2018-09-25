@@ -9,6 +9,10 @@ export interface IKafkaConsumerGroupOptions {
     topics: string[];
     processCallback: (message: any, cb: (err?: Error) => void) => void;
 }
+export interface IKafkaProducerOptions {
+    host: string;
+    port: string;
+}
 export interface IKafkaMessage {
     event: string;
     data: any;
@@ -29,9 +33,9 @@ let client: any = null;
 let producer: any = null;
 
 export const KafkaProducerService: any = {
-    init: (host: string, port: string): void => {
-        Logger.info('[KAFKA]', 'Connecting Kafka producer', host, port);
-        client = new kafka.Client(host + ':' + port);
+    init: (options: IKafkaProducerOptions): void => {
+        Logger.info('[KAFKA]', 'Connecting Kafka producer', options.host, options.port);
+        client = new kafka.Client(options.host + ':' + options.port);
         producer = new Producer(client);
         producer.on('ready', () => {
             Logger.info('[KAFKA]', 'Kafka producer connected');
