@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const kafka = require("kafka-node");
 const log4js = require("log4js");
 const async = require("async");
-const QUEUE_CONCURRENCY = 1;
 const consumerGroups = {};
 const processCallbacks = {};
 const Logger = getLogger();
@@ -54,6 +53,7 @@ exports.KafkaConsumerService = {
             kafkaHost: consumerGroupOptions.kafkaHost,
             groupId: consumerGroupOptions.groupId
         }, consumerGroupOptions.topics);
+        const queueConcurrency = consumerGroupOptions.queueConcurrency ? consumerGroupOptions.queueConcurrency : 1;
         const q = async.queue((message, cb) => {
             if (!processCallbacks[message.event]) {
                 cb();
@@ -69,7 +69,7 @@ exports.KafkaConsumerService = {
                     }
                 });
             }
-        }, QUEUE_CONCURRENCY);
+        }, queueConcurrency);
         q.drain = () => {
             consumerGroup.resume();
         };

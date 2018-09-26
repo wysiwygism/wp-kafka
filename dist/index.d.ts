@@ -2,6 +2,7 @@ export interface IKafkaConsumerGroupOptions {
     name: string;
     kafkaHost: string;
     groupId: string;
+    queueConcurrency?: number;
     topics: string[];
     processCallback: (message: any, cb: (err?: Error) => void) => void;
 }

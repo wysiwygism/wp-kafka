@@ -6,6 +6,7 @@ export interface IKafkaConsumerGroupOptions {
     name: string;
     kafkaHost: string;
     groupId: string;
+    queueConcurrency?: number;
     topics: string[];
     processCallback: (message: any, cb: (err?: Error) => void) => void;
 }
@@ -22,7 +23,6 @@ interface IConsumerGroup {
     q: any
 }
 
-const QUEUE_CONCURRENCY: number = 1;
 const consumerGroups: any = {};
 const processCallbacks: any = {};
 const Logger = getLogger();
@@ -76,6 +76,7 @@ export const KafkaConsumerService: any = {
             groupId: consumerGroupOptions.groupId
         }, consumerGroupOptions.topics);
 
+        const queueConcurrency: number = consumerGroupOptions.queueConcurrency ? consumerGroupOptions.queueConcurrency : 1;
         const q = async.queue((message: IKafkaMessage, cb) => {
             if (!processCallbacks[message.event]) {
                 cb();
@@ -89,7 +90,7 @@ export const KafkaConsumerService: any = {
                     }
                 });
             }
-        }, QUEUE_CONCURRENCY);
+        }, queueConcurrency);
         q.drain = () => {
             consumerGroup.resume();
         };
