@@ -56,7 +56,12 @@ exports.KafkaConsumerService = {
         const queueConcurrency = consumerGroupOptions.queueConcurrency ? consumerGroupOptions.queueConcurrency : 1;
         const q = async.queue((message, cb) => {
             if (!processCallbacks[message.event]) {
-                cb();
+                if (consumerGroupOptions.processCallback) {
+                    consumerGroupOptions.processCallback(message, cb);
+                }
+                else {
+                    cb();
+                }
             }
             else {
                 const processCallback = processCallbacks[message.event];

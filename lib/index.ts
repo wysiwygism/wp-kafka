@@ -79,7 +79,11 @@ export const KafkaConsumerService: any = {
         const queueConcurrency: number = consumerGroupOptions.queueConcurrency ? consumerGroupOptions.queueConcurrency : 1;
         const q = async.queue((message: IKafkaMessage, cb) => {
             if (!processCallbacks[message.event]) {
-                cb();
+                if (consumerGroupOptions.processCallback) {
+                    consumerGroupOptions.processCallback(message, cb);
+                } else {
+                    cb();
+                }
             } else {
                 const processCallback: (data: any, callback: (message: any) => void) => void = processCallbacks[message.event];
                 processCallback(message.data, (message: any) => {
