@@ -95,6 +95,12 @@ export const KafkaConsumerService: any = {
                 });
             }
         }, queueConcurrency);
+        q.saturated = () => {
+            consumerGroup.pause();
+        };
+        q.unsaturated = () => {
+            consumerGroup.resume();
+        };
         q.drain = () => {
             consumerGroup.resume();
         };
@@ -111,7 +117,6 @@ export const KafkaConsumerService: any = {
                             Logger.error(err.message);
                         }
                     });
-                    consumerGroup.pause();
                 } else {
                     Logger.error('[KAFKA]', 'Empty kafka message');
                 }
