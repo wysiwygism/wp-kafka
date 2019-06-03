@@ -75,6 +75,12 @@ exports.KafkaConsumerService = {
                 });
             }
         }, queueConcurrency);
+        q.saturated = () => {
+            consumerGroup.pause();
+        };
+        q.unsaturated = () => {
+            consumerGroup.resume();
+        };
         q.drain = () => {
             consumerGroup.resume();
         };
@@ -90,7 +96,6 @@ exports.KafkaConsumerService = {
                             Logger.error(err.message);
                         }
                     });
-                    consumerGroup.pause();
                 }
                 else {
                     Logger.error('[KAFKA]', 'Empty kafka message');
